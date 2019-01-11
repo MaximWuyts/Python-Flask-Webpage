@@ -17,26 +17,26 @@ page_soup = soup(page_html, "html.parser")
 containers = page_soup.findAll("div", {"class": "item-container"})
 
 for container in containers:
-    try:
-        Name = container.img["alt"]
-        print(Name)
-    except TypeError:
-        pass
+    brand_container = container.findAll("a", {"class": "item-brand"})
+    brand = brand_container[0].img["title"]
 
     title_container = container.findAll("a", {"class": "item-title"})
     product_name = title_container[0].text
 
     old_price_container = container.findAll(
         "span", {"class": "price-was-data"})
-    old_price = old_price_container[0].text
+    old_price = "€" + old_price_container[0].text
 
     current_price_container = container.findAll(
         "li", {"class": "price-current"})
     current_price = current_price_container[0].text[2:8]
 
-    total_ratings = container.div.span[0].text
+    total_ratings_container = container.findAll(
+        "span", {"class": "item-rating-num"})
+    total_ratings = total_ratings_container[0].text[1:2]
 
     print("brand: " + brand)
     print("product_name: " + product_name)
     print("old_price: " + old_price)
     print("current_price: " + current_price)
+    print("total of ratings: " + total_ratings)
