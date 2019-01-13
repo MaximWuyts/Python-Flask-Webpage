@@ -4,7 +4,7 @@ import sqlite3
 
 app = Flask(__name__)
 
-conn = sqlite3.connect('wuyts_maxim.db')
+conn = sqlite3.connect('wuyts_maxim.db', check_same_thread=False)
 cursor = conn.execute("SELECT * from wuyts_maxim")
 
 for row in cursor:
@@ -18,7 +18,11 @@ for row in cursor:
 def index():
     return render_template('index.html')
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
+@app.route('/list')
+def list():
+   conn.row_factory = sqlite3.Row
+   cur = conn.cursor()
+   cur.execute("select * from wuyts_maxim")
+   
+   rows = cur.fetchall(); 
+   return render_template("list.html",rows = rows)
