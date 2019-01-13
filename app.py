@@ -1,28 +1,35 @@
 from flask import Flask, render_template
 import sqlite3
 
-
 app = Flask(__name__)
 
-conn = sqlite3.connect('wuyts_maxim.db', check_same_thread=False)
-cursor = conn.execute("SELECT * from wuyts_maxim")
-
-for row in cursor:
-    print("Brand = ", row[0])
-    print("Product Name = ", row[1])
-    print("Old Price = ", row[2])
-    print("Current Price  = ", row[3])
-    print("Total ratings = ", row[4])
+conn = sqlite3.connect('products1.db', check_same_thread=False)
+cursor = conn.execute("SELECT * from products1")
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("select * from products1")
+
+    rows = cur.fetchall()
+    return render_template("index.html",rows = rows)
 
 @app.route('/list')
 def list():
    conn.row_factory = sqlite3.Row
    cur = conn.cursor()
-   cur.execute("select * from wuyts_maxim")
+   cur.execute("select * from products1")
    
-   rows = cur.fetchall(); 
+   rows = cur.fetchall()
    return render_template("list.html",rows = rows)
+
+@app.route('/list/<string:count>/')
+def list_product(count):
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("select * from products1 where count = " + "count")
+    row = cur.fetchone()
+    print(row)
+    return render_template('list_id.html', row=row)
+

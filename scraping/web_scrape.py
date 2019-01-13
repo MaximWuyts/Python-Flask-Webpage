@@ -18,14 +18,18 @@ page_soup = soup(page_html, "html.parser")
 # grabs each product
 containers = page_soup.findAll("div", {"class": "item-container"})
 
-filename = "products.csv"
+filename = "products1.csv"
 f = open(filename, "w")
 
-headers = "brand; product_name; old_price; current_price; total_ratings\n"
+headers = "count; brand; product_name; old_price; current_price; total_ratings\n"
 
 f.write(headers)
-
+count = 0
 for container in containers:
+    
+    count += 1
+    counter = str(count)
+
     brand_container = container.findAll("a", {"class": "item-brand"})
     brand = brand_container[0].img["title"]
 
@@ -43,13 +47,13 @@ for container in containers:
         "span", {"class": "item-rating-num"})
     total_ratings = total_ratings_container[0].text[1:3]
 
+    print("number: " + counter)
     print("brand: " + brand)
     print("product_name: " + product_name)
     print("old_price: €" + old_price)
     print("current_price: €" + current_price)
     print("total of ratings: " + total_ratings)
 
-    f.write(brand + ";" + product_name.replace(",", "|") + ";" +
-            old_price + ";" + current_price + ";" + total_ratings + "\n")
+    f.write(counter + ";" + brand + ";" + product_name.replace(",", "|") + ";" + old_price + ";" + current_price + ";" + total_ratings + "\n")
 
 f.close()
