@@ -6,25 +6,18 @@
         crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../style.css">
+
 </head>
 
 <body>
     <div class="container">
-        <div class="mx-auto" style="width: 200px; font-size: 50px">Table</div>
-        <table class="table table-striped">
-            <thead>
-                <td scope="col" style="text-align: center">product name</td>
-            </thead>
-
-            {% for row in rows %}
-            <tr>
-
-                <td scope="row"> {{row["product_name"]}}</td></a>
-                <td><a href="list/{{row[0]}}" class="btn btn-success pullright">check</a></td>
-            </tr>
-            {% endfor %}
-        </table>
+        <h2>Give your name please</h2>
+        <form method="POST">
+            <div class="form-group">
+                <input type="text" name="username" class="form-control" value={{naam}}>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </div>
 </body>
 
