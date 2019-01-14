@@ -1,4 +1,4 @@
-This is my First Flask Webpage. It's a webpage where I pulled data from an existin website via web scraping.
+This is my First Flask Webpage. It's a webpage where I pulled data from an existing website via web scraping.
 
 To start: 
     cd into it
