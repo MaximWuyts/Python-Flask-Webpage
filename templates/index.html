@@ -11,10 +11,24 @@
 
 <body>
     <div class="container">
-        <h2>Give your name please</h2>
+        <h2>Give your name please choose between the color green or blue</h2>
         <form method="POST">
             <div class="form-group">
-                <input type="text" name="username" class="form-control" value={{naam}}>
+                <input type="text" name="username" class="form-control" value={{name}}>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="color" value="green" checked>
+                    <label class="form-check-label">
+                        green
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="color" value="blue">
+                    <label class="form-check-label">
+                        blue
+                    </label>
+                </div>
+
+
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -11,12 +11,13 @@ cursor = conn.execute("SELECT * from products1")
 def index():
     if request.method == "POST":
         session.pop("user", None)
-
         session["user"] = request.form['username']
+        session["color"] = request.form["color"]
         return redirect(url_for("list"))
-    naam = g.user
-    return render_template("index.html", naam = naam)
+   
+    return render_template("index.html", name = g.user)
 
+#show list if logged in
 @app.route('/list')
 def list():
     if g.user:
@@ -25,15 +26,34 @@ def list():
         cur.execute("select * from products1")
    
         rows = cur.fetchall()
-        return render_template("list.html",rows = rows)
+        if 'visits' in session:
+            total_visits = session['visits'] = session.get('visits') + 1 
+        else:
+            session['visits'] = 1 
+            total_visits = session.get('visits')
+        return render_template("list.html",rows = rows, color = g.color, total_visits = total_visits)
 
     return redirect(url_for("index"))
-   
+
+#show product details
+@app.route('/list/<string:count>/')
+def list_product(count):
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("select * from products1 where count = " + count)
+    row = cur.fetchone()
+    return render_template('list_id.html', row=row, color = g.color)
+
+
+#sessions
 @app.before_request
 def before_request():
     g.user = ""
+    g.color = None
     if "user" in session:
         g.user = session["user"]
+    if "color" in session:
+        g.color = session["color"]
 
 @app.route('/getsession')
 def getsession():
@@ -46,20 +66,3 @@ def getsession():
 def dropsession():
     session.pop('user', None)
     return 'Dropped!'
-
-@app.route('/list/<string:count>/')
-def list_product(count):
-    conn.row_factory = sqlite3.Row
-    cur = conn.cursor()
-    cur.execute("select * from products1 where count = " + count)
-    row = cur.fetchone()
-    print(row)
-    return render_template('list_id.html', row=row)
-
-@app.route("/visits")
-def visits():
-    if 'visits' in session:
-        session['visits'] = session.get('visits') + 1  # reading and updating session data
-    else:
-        session['visits'] = 1 # setting session data
-    return "Total visits: {}".format(session.get('visits'))

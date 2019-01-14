@@ -9,16 +9,35 @@
 
 </head>
 
+
+{% if color == "blue" %}
+<style>
+    body {
+        background-color: #19B5FE;
+    }
+</style>
+{% endif %}
+
+{% if color == "green" %}
+<style>
+    body {
+        background-color: #87D37C
+    }
+</style>
+{% endif %}
+
 <body>
     <div class="container">
-        <div class="mx-auto" style="width: 200px; font-size: 50px">Table</div>
-        <table class="table table-striped ">
-            <thead>
-                <td scope="col">brand</td>
-                <td scope="col">product name</td>
-                <td scope="col">old price in €</td>
-                <td scope="col">current price in €</td>
-                <td scope="col">total ratings</td>
+        <div class="mx-auto" style="width: 200px; font-size: 50px; color: honeydew">Table</div>
+        <table class="table table table-bordered">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">brand</th>
+                    <th scope="col">product name</th>
+                    <th scope="col">old price in €</th>
+                    <th scope="col">current price in €</th>
+                    <th scope="col">total ratings</th>
+                </tr>
             </thead>
 
 
