@@ -1,12 +1,17 @@
+#imports
 from flask import Flask, render_template, request, redirect, url_for, session, redirect, g, flash
 import sqlite3
 
 app = Flask(__name__)
+
+#session key
 app.secret_key = "super secret key"
 
+#connect to db
 conn = sqlite3.connect('wuyts_maxim.db', check_same_thread=False)
 cursor = conn.execute("SELECT * from products")
 
+#login
 @app.route('/', methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -18,6 +23,7 @@ def index():
         return render_template("index.html", name = g.user)
     except Exception as e:
         return (str(e))
+    
 #show list if logged in
 @app.route('/list')
 def list():
@@ -60,6 +66,7 @@ def before_request():
     if "color" in session:
         g.color = session["color"]
 
+#delete the session
 @app.route('/dropsession')
 def dropsession():
     session.pop('user', None)
